@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Pterodactyl – Harga Hosting</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #05060f;
+    --surface: #0d0f1e;
+    --card: #111327;
+    --border: #1e2240;
+    --accent: #00f0ff;
+    --accent2: #ff4ecd;
+    --accent3: #ffe144;
+    --gold: #ffd700;
+    --text: #e8ecff;
+    --muted: #7880aa;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* animated grid bg */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,240,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,240,255,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 20px 80px;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 60px;
+    animation: fadeDown 0.7s ease both;
+  }
+
+  .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #000;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+  }
+
+  .header h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(28px, 6vw, 52px);
+    font-weight: 900;
+    background: linear-gradient(135deg, #fff 30%, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    margin-bottom: 14px;
+  }
+
+  .header p {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent);
+    box-shadow: 0 0 30px rgba(0,240,255,0.15), 0 20px 40px rgba(0,0,0,0.4);
+  }
+
+  /* glow corner */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: var(--glow, var(--accent));
+    opacity: 0.07;
+    transition: opacity 0.3s;
+  }
+  .card:hover::before { opacity: 0.18; }
+
+  .card-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .card-ram {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 4px;
+    line-height: 1;
+  }
+
+  .card-ram span {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--muted);
+    font-family: 'Syne', sans-serif;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 18px 0;
+  }
+
+  .features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .features li {
+    font-size: 13px;
+    color: #a8b0d0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .features li::before {
+    content: '✦';
+    color: var(--accent);
+    font-size: 10px;
+    flex-shrink: 0;
+  }
+
+  .price-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .price {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent3);
+  }
+
+  .price sub {
+    font-size: 12px;
+    font-family: 'Syne', sans-serif;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .order-btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .order-btn:hover {
+    background: var(--accent);
+    color: #000;
+  }
+
+  /* POPULAR BADGE */
+  .card.popular {
+    border-color: var(--accent2);
+    --glow: var(--accent2);
+  }
+  .card.popular:hover {
+    border-color: var(--accent2);
+    box-shadow: 0 0 30px rgba(255,78,205,0.2), 0 20px 40px rgba(0,0,0,0.4);
+  }
+  .card.popular .card-label { color: var(--accent2); }
+  .card.popular .features li::before { color: var(--accent2); }
+  .card.popular .order-btn { border-color: var(--accent2); color: var(--accent2); }
+  .card.popular .order-btn:hover { background: var(--accent2); color: #fff; }
+
+  .pop-tag {
+    position: absolute;
+    top: 14px; right: 14px;
+    background: var(--accent2);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* UNLIMITED CARD */
+  .unli-wrap {
+    animation: fadeUp 0.6s ease 0.5s both;
+  }
+
+  .card.unli {
+    background: linear-gradient(135deg, #0a0c20 0%, #100a20 100%);
+    border: 1.5px solid var(--gold);
+    --glow: var(--gold);
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card.unli::after {
+    content: '∞';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 180px;
+    font-family: 'Orbitron', sans-serif;
+    color: var(--gold);
+    opacity: 0.04;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .card.unli:hover {
+    border-color: var(--gold);
+    box-shadow: 0 0 50px rgba(255,215,0,0.2), 0 30px 60px rgba(0,0,0,0.5);
+  }
+
+  .unli-left { flex: 1; min-width: 200px; }
+
+  .unli-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(90deg, rgba(255,215,0,0.15), transparent);
+    border: 1px solid rgba(255,215,0,0.3);
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+
+  .card.unli .card-ram {
+    font-size: 42px;
+    background: linear-gradient(135deg, var(--gold), #fff9b0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .unli-features {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    margin-top: 16px;
+  }
+
+  .unli-features li {
+    font-size: 13px;
+    color: #c8c0a0;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .unli-features li::before {
+    content: '★';
+    color: var(--gold);
+    font-size: 11px;
+  }
+
+  .unli-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 14px;
+    min-width: 160px;
+  }
+
+  .unli-price {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    text-align: right;
+  }
+
+  .unli-price sub {
+    font-size: 13px;
+    font-family: 'Syne', sans-serif;
+    color: #a09070;
+    font-weight: 400;
+  }
+
+  .unli-btn {
+    background: linear-gradient(135deg, var(--gold), #ffb300);
+    color: #000;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: filter 0.2s, transform 0.2s;
+    white-space: nowrap;
+  }
+  .unli-btn:hover {
+    filter: brightness(1.15);
+    transform: scale(1.04);
+  }
+
+  /* footer note */
+  .footnote {
+    text-align: center;
+    margin-top: 48px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.8;
+    animation: fadeUp 0.6s ease 0.7s both;
+  }
+
+  .footnote strong { color: var(--accent); }
+
+  /* animations */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card:nth-child(1) { animation-delay: 0.05s }
+  .card:nth-child(2) { animation-delay: 0.10s }
+  .card:nth-child(3) { animation-delay: 0.15s }
+  .card:nth-child(4) { animation-delay: 0.20s }
+  .card:nth-child(5) { animation-delay: 0.25s }
+  .card:nth-child(6) { animation-delay: 0.30s }
+  .card:nth-child(7) { animation-delay: 0.35s }
+  .card:nth-child(8) { animation-delay: 0.40s }
+  .card:nth-child(9) { animation-delay: 0.45s }
+
+  @media (max-width: 540px) {
+    .card.unli { flex-direction: column; }
+    .unli-right { align-items: flex-start; }
+    .unli-price { text-align: left; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="badge">🦕 Pterodactyl Panel</div>
+    <h1>Panel Hosting<br>Terjangkau & Kencang</h1>
+    <p>Server berbasis Pterodactyl. Instant setup, panel lengkap, uptime terjamin 24/7.</p>
+  </div>
+
+  <!-- CARDS 1–9 GB -->
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-label">Paket Starter</div>
+      <div class="card-ram">1 GB <span>RAM</span></div>
+      <div class="divider"></div>
+      <ul class="features">
+        <li>30% vCore CPU</li>
+        <li>1 GB SSD Storage</li>
+        <li>1 Server Slot</li>
+        <li>Panel Full Access</li>
+        <li>Backup 1x / minggu</li>
+      </ul>
+      <div class="price-row">
+        <div class="price">Rp 1K <sub>/ bln</sub></div>
+        <button class="order-btn">Order</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Paket Basic</div>
+      <div class="card-ram">2 GB <span>RAM</span></div>
+      <div class="divider"></div>
+      <ul class="features">
+        <li>60% vCore CPU</li>
+        <li>2 GB SSD Storage</li>
+        <li>1 Server Slot</li>
+        <li>Panel Full Access</li>
+        <li>Backup 2x / minggu</li>
+      </ul>
+      <div class="price-row">
+        <div class="price">Rp 2K <sub>/ bln</sub></div>
+        <button class="order-btn">Order</button>
+      </div>
+    </div>
+
+    <div class="card popular">
+      <div class="pop-tag">🔥 Terlaris</div>
+      <div class="card-label">Paket Standard</div>
+      <div class="card-ram">3 GB <span>RAM</span></div>
+      <div class="divider"></div>
+      <ul class="features">
+        <li>90% vCore CPU</li>
+        <li>3 GB SSD Storage</li>
+        <li>2 Server Slot</li>
+        <li>Panel Full Access</li>
+        <li>Backup 3x / minggu</li>
+      </ul>
+      <div class="price-row">
+        <div class="price">Rp 3K <sub>/ bln</sub></div>
+        <button class="order-btn">Order</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Paket Medium</div>
+      <div class="card-ram">4 GB <span>RAM</span></div>
+      <div class="divider"></div>
+      <ul class="features">
+        <li>110% vCore CPU</li>
+        <li>4 GB SSD Storage</li>
+        <li>1 Server Slot</li>
+        <li>Panel Full Access</li>
+        <li>Backup Harian</li>
+      </ul>
+      <div class="price-row">
+        <div class="price">Rp 4K <sub>/ bln</sub></div>
+        <button class="order-btn">Order</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Paket Plus</div>
+      <div class="card-ram">5 GB <span>RAM</span></div>
+      <div class="divider"></div>
+      <ul class="features">
+        <li>130% vCore CPU</li>
+        <li>5 GB SSD Storage</li>
+        <li>1 Server Slot</li>
+        <li>Panel Full Access</li>
+        <li>Backup Harian</li>
+      </ul>
+      <div class="price-row">
+        <div class="price">Rp 5K <sub>/ bln</sub></div>
+        <button class="order-btn">Order</button>
+      </div>
+    </div>
+
+    <div class="card popular">
+      <div class="pop-tag">⚡ Best Value</div>
+      <div class="card-label">Paket Pro</div>
+      <div class="card-ram">6 GB <span>RAM</span></div>
+      <div class="divider"></div>
+      <ul class="features">
+        <li>160% vCore CPU</li>
+        <li>6 GB SSD Storage</li>
+        <li>1 Server Slot</li>
+        <li>Panel Full Access</li>
+        <li>Backup Harian + Auto</li>
+      </ul>
+      <div class="price-row">
+        <div class="price">Rp 6K <sub>/ bln</sub></div>
+        <button class="order-btn">Order</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Paket Advanced</div>
+      <div class="card-ram">7 GB <span>RAM</span></div>
+      <div class="divider"></div>
+      <ul class="features">
+        <li>190 vCore CPU</li>
+        <li>7 GB SSD Storage</li>
+        <li>1 Server Slot</li>
+        <li>Panel Full Access</li>
+        <li>Backup Harian + Auto</li>
+      </ul>
+      <div class="price-row">
+        <div class="price">Rp 7K <sub>/ bln</sub></div>
+        <button class="order-btn">Order</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Paket Elite</div>
+      <div class="card-ram">8 GB <span>RAM</span></div>
+      <div class="divider"></div>
+      <ul class="features">
+        <li>210 vCore CPU</li>
+        <li>8 GB SSD Storage</li>
+        <li>1 Server Slot</li>
+        <li>Panel Full Access</li>
+        <li>Priority Support</li>
+      </ul>
+      <div class="price-row">
+        <div class="price">Rp 8K <sub>/ bln</sub></div>
+        <button class="order-btn">Order</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Paket Ultra</div>
+      <div class="card-ram">9 GB <span>RAM</span></div>
+      <div class="divider"></div>
+      <ul class="features">
+        <li>230 vCore CPU</li>
+        <li>9 GB SSD Storage</li>
+        <li>1 Server Slot</li>
+        <li>Panel Full Access</li>
+        <li>Priority Support VIP</li>
+      </ul>
+      <div class="price-row">
+        <div class="price">Rp 9K <sub>/ bln</sub></div>
+        <button class="order-btn">Order</button>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+
+  <!-- UNLIMITED CARD -->
+  <div class="unli-wrap">
+    <div class="card unli">
+      <div class="unli-left">
+        <div class="unli-badge">👑 Eksklusif</div>
+        <div class="card-ram" style="font-family:'Orbitron',sans-serif;font-size:42px;background:linear-gradient(135deg,#ffd700,#fff9b0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+          UNLIMITED
+        </div>
+        <ul class="unli-features">
+          <li>RAM Tanpa Batas</li>
+          <li>CPU Tanpa Limit</li>
+          <li>Storage Tanpa Limit</li>
+          <li>Bebas Akses Server</li>
+        </ul>
+      </div>
+<div class="unli-right">
+  <div class="unli-price">
+    <span style="font-size:13px;color:#888;text-decoration:line-through;font-family:'DM Sans',sans-serif;font-weight:400;display:block;margin-bottom:2px;">Rp 10K / bln</span>
+    <span style="font-size:11px;background:linear-gradient(135deg,#ff4444,#ff0000);color:#fff;font-family:'DM Sans',sans-serif;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:6px;">🔥 PROMO -80%</span>
+    Rp 2K <sub>/ bln</sub>
+ </div>  
+  <button class="unli-btn">✦ Ambil Sekarang</button>  
+</div> 
+
+  <!-- FOOTNOTE -->
+  <div class="footnote">
+    Semua paket sudah termasuk <strong>Panel Pterodactyl Full Access</strong> · Bayar via Transfer / QRIS<br>
+    Butuh custom spesifikasi? <strong>Hubungi Admin</strong>
+  </div>
+
+</div>
+</body>
+</html>
